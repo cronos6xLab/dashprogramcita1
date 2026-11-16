@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<base target="_top">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#244d54">
+<title>Aevi Wellness · Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#244d54; --mint:#2ecea0; --soft:#6dddbd;
+  --ink:#151515; --graphite:#4d4d4d; --slate:#858585; --fog:#999;
+  --mist:#e5e7eb; --bone:#f0f1f2; --paper:#fff;
+  --danger:#d94a4a; --warn:#c98a00;
+  --r-md:8px; --r-lg:12px; --r-xl:20px; --r-pill:50px;
+  --font:'Inter Tight', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  margin:0;background:var(--bone);color:var(--ink);
+  font-family:var(--font);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,p{margin:0;}
+button{font-family:inherit;cursor:pointer;}
+input,select,textarea{font-family:inherit;font-size:16px;}
+.hidden{display:none !important;}
+.muted{color:var(--slate);font-size:13px;}
+
+/* ---------- Botones ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;padding:10px 22px;border-radius:var(--r-pill);
+  border:1px solid transparent;font-size:14px;font-weight:500;
+  transition:.15s ease;white-space:nowrap;
+}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--mint);color:#fff;border-color:var(--mint);}
+.btn-primary:hover{filter:brightness(.95);}
+.btn-ghost{background:#fff;color:var(--teal);border-color:var(--teal);}
+.btn-ghost:hover{background:var(--teal);color:#fff;}
+.btn-sm{min-height:34px;padding:6px 14px;font-size:13px;}
+.btn-danger{background:transparent;color:var(--danger);border-color:#f2c9c9;}
+.btn-danger:hover{background:var(--danger);color:#fff;border-color:var(--danger);}
+.icon-btn{
+  width:32px;height:32px;display:grid;place-items:center;
+  border-radius:50%;border:1px solid var(--mist);background:#fff;
+  font-size:14px;line-height:1;color:var(--slate);transition:.15s;
+}
+.icon-btn:hover{border-color:var(--danger);color:var(--danger);}
+
+/* ---------- Login ---------- */
+.login-wrap{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:24px;background:linear-gradient(160deg,#244d54 0%,#17343a 100%);
+}
+.login-card{
+  width:100%;max-width:380px;background:#fff;border-radius:var(--r-xl);
+  padding:36px 28px;box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+.login-mark{
+  width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;
+  display:grid;place-items:center;font-size:22px;font-weight:600;margin:0 auto 18px;
+}
+.login-card h1{font-size:22px;font-weight:600;text-align:center;letter-spacing:-.02em;}
+.login-card > p{text-align:center;color:var(--slate);font-size:13px;margin-top:4px;margin-bottom:24px;}
+.login-msg{min-height:18px;font-size:13px;color:var(--danger);margin-top:12px;text-align:center;}
+
+/* ---------- Campos ---------- */
+.field{display:block;margin-bottom:14px;}
+.field > span{
+  display:block;font-size:10px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--slate);margin-bottom:6px;
+}
+.field input[type=text],
+.field input[type=email],
+.field input[type=tel],
+.field input[type=url],
+.field input[type=number],
+.field input[type=password],
+.field input[type=date],
+.field input[type=time],
+.field select,
+.field textarea{
+  width:100%;padding:10px 12px;border:1px solid #cfd3d6;border-radius:var(--r-md);
+  background:#fff;color:var(--ink);transition:.15s;-webkit-appearance:none;appearance:none;
+}
+.field textarea{min-height:70px;resize:vertical;line-height:1.5;}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(36,77,84,.12);
+}
+.field input[type=color]{
+  width:100%;height:42px;padding:4px;border:1px solid #cfd3d6;
+  border-radius:var(--r-md);background:#fff;cursor:pointer;
+}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:0 16px;}
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+/* ---------- Shell ---------- */
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh;}
+
+.sidebar{
+  background:var(--teal);color:#fff;padding:20px 14px;
+  display:flex;flex-direction:column;gap:6px;
+  position:sticky;top:0;height:100vh;overflow-y:auto;z-index:80;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px 18px;border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:12px;}
+.brand-logo{
+  width:38px;height:38px;border-radius:10px;background:var(--mint);color:#fff;
+  display:grid;place-items:center;font-weight:600;font-size:17px;flex-shrink:0;overflow:hidden;
+}
+.brand-logo img{width:100%;height:100%;object-fit:cover;}
+.brand strong{display:block;font-size:14px;font-weight:600;line-height:1.2;}
+.brand span{font-size:11px;color:var(--soft);letter-spacing:.06em;text-transform:uppercase;}
+
+.nav-btn{
+  display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;
+  background:transparent;border:0;border-radius:10px;color:rgba(255,255,255,.78);
+  font-size:14px;font-weight:500;text-align:left;transition:.15s;
+}
+.nav-btn:hover{background:rgba(255,255,255,.08);color:#fff;}
+.nav-btn.active{background:var(--mint);color:#fff;}
+.nav-btn .dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.5;flex-shrink:0;}
+.sidebar-foot{margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.14);}
+.sidebar-foot .nav-btn{color:rgba(255,255,255,.6);font-size:13px;}
+
+.main{display:flex;flex-direction:column;min-width:0;}
+.topbar{
+  position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--mist);
+  padding:0 24px;height:62px;display:flex;align-items:center;gap:14px;
+}
+.topbar h2{font-size:17px;font-weight:600;letter-spacing:-.01em;flex:1;}
+.menu-btn{display:none;width:38px;height:38px;border:1px solid var(--mist);background:#fff;border-radius:10px;font-size:16px;}
+
+.content{padding:24px;max-width:1100px;width:100%;margin:0 auto;}
+
+.panel{display:none;}
+.panel.active{display:block;animation:fade .18s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+/* ---------- Cards ---------- */
+.card{
+  background:#fff;border:1px solid var(--mist);border-radius:var(--r-xl);
+  padding:22px;margin-bottom:18px;
+}
+.card h3{font-size:15px;font-weight:600;margin-bottom:16px;letter-spacing:-.01em;}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;}
+.card-head h3{margin:0;}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
+@media(max-width:800px){.stats{grid-template-columns:1fr 1fr;}}
+.stat{background:#fff;border:1px solid var(--mist);border-radius:var(--r-lg);padding:16px 18px;}
+.stat b{display:block;font-size:26px;font-weight:600;letter-spacing:-.03em;color:var(--teal);line-height:1.1;}
+.stat span{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);}
+
+/* ---------- Listas dinámicas ---------- */
+.row-card{
+  border:1px solid var(--mist);border-radius:var(--r-lg);
+  padding:16px;margin-bottom:12px;background:#fcfcfd;
+}
+.row-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
+.row-head strong{font-size:14px;font-weight:600;}
+.row-actions{display:flex;align-items:center;gap:8px;}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 10px 6px 12px;
+  background:#fff;border:1px solid var(--mist);border-radius:var(--r-pill);
+  font-size:13px;font-weight:500;color:var(--ink);
+}
+.chip button{border:0;background:transparent;color:var(--slate);font-size:13px;line-height:1;padding:0;}
+.chip button:hover{color:var(--danger);}
+
+.input-time{padding:6px 8px;border:1px solid #cfd3d6;border-radius:var(--r-md);font-size:14px;}
+
+/* ---------- Galería ---------- */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;}
+.gal-item{border:1px solid var(--mist);border-radius:var(--r-lg);overflow:hidden;background:#fcfcfd;}
+.gal-thumb{
+  height:110px;background:var(--bone) center/cover no-repeat;
+  display:grid;place-items:center;color:var(--fog);font-size:12px;
+}
+.gal-body{padding:10px;}
+.gal-body input{width:100%;padding:6px 8px;border:1px solid var(--mist);border-radius:6px;font-size:12px;margin-bottom:6px;}
+
+/* ---------- Tabla ---------- */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:14px;}
+th{
+  text-align:left;font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--slate);padding:10px 12px;border-bottom:1px solid var(--mist);white-space:nowrap;
+}
+td{padding:12px;border-bottom:1px solid var(--mist);vertical-align:middle;}
+tr:last-child td{border-bottom:0;}
+td select{
+  padding:6px 10px;border:1px solid var(--mist);border-radius:var(--r-pill);
+  font-size:12px;background:#fff;text-transform:capitalize;
+}
+
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:var(--r-pill);
+  font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:capitalize;
+}
+.badge.pendiente{background:#fff4d6;color:#8a6100;}
+.badge.confirmada{background:#d9f7ee;color:#0f7a5b;}
+.badge.completada{background:#e3eef0;color:var(--teal);}
+.badge.cancelada{background:#fbe3e3;color:#b13333;}
+
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.toolbar input,.toolbar select{
+  padding:9px 12px;border:1px solid var(--mist);border-radius:var(--r-pill);
+  font-size:14px;background:#fff;min-width:160px;
+}
+
+/* ---------- Preview mapa ---------- */
+.map-preview{
+  width:100%;height:220px;border:1px solid var(--mist);
+  border-radius:var(--r-lg);overflow:hidden;margin-top:12px;background:var(--bone);
+}
+.map-preview iframe{width:100%;height:100%;border:0;filter:grayscale(1);}
+
+/* ---------- Toast ---------- */
+.toast{
+  position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);
+  background:var(--teal);color:#fff;padding:12px 24px;border-radius:var(--r-pill);
+  font-size:14px;font-weight:500;opacity:0;pointer-events:none;
+  transition:.25s ease;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+.toast.show{opacity:1;transform:translate(-50%,0);}
+.toast.error{background:var(--danger);}
+
+/* ---------- Responsive ---------- */
+.backdrop{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:70;
+}
+.backdrop.show{display:block;}
+@media(max-width:900px){
+  .app{grid-template-columns:1fr;}
+  .sidebar{
+    position:fixed;left:0;top:0;bottom:0;width:250px;height:100vh;
+    transform:translateX(-100%);transition:transform .2s ease;
+  }
+  .sidebar.open{transform:none;}
+  .menu-btn{display:grid;place-items:center;}
+  .content{padding:16px;}
+  .topbar{padding:0 16px;}
+  .card{padding:16px;border-radius:var(--r-lg);}
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     LOGIN
+     ========================================================= -->
+<div class="login-wrap" id="loginView">
+  <form class="login-card" id="loginForm">
+    <div class="login-mark">A</div>
+    <h1>Aevi Wellness</h1>
+    <p>Panel de administración</p>
+    <label class="field">
+      <span>Contraseña</span>
+      <input type="password" id="loginPass" autocomplete="current-password" required>
+    </label>
+    <button class="btn btn-primary" type="submit" style="width:100%;">Entrar</button>
+    <p class="login-msg" id="loginMsg"></p>
+  </form>
+</div>
+
+<!-- =========================================================
+     APP
+     ========================================================= -->
+<div class="app hidden" id="appView">
+
+  <div class="backdrop" id="backdrop"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-logo" id="brandLogo">A</div>
+      <div>
+        <strong id="brandName">Aevi Wellness</strong>
+        <span>Panel</span>
+      </div>
+    </div>
+
+    <button class="nav-btn active" data-section="resumen"><i class="dot"></i>Resumen</button>
+    <button class="nav-btn" data-section="negocio"><i class="dot"></i>Negocio</button>
+    <button class="nav-btn" data-section="contacto"><i class="dot"></i>Contacto y redes</button>
+    <button class="nav-btn" data-section="ubicacion"><i class="dot"></i>Ubicación</button>
+    <button class="nav-btn" data-section="servicios"><i class="dot"></i>Servicios</button>
+    <button class="nav-btn" data-section="horarios"><i class="dot"></i>Horarios</button>
+    <button class="nav-btn" data-section="disponibilidad"><i class="dot"></i>Disponibilidad</button>
+    <button class="nav-btn" data-section="imagenes"><i class="dot"></i>Imágenes</button>
+    <button class="nav-btn" data-section="citas"><i class="dot"></i>Citas</button>
+    <button class="nav-btn" data-section="ajustes"><i class="dot"></i>Ajustes</button>
+
+    <div class="sidebar-foot">
+      <button class="nav-btn" id="btnLogout">← Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+      <h2 id="pageTitle">Resumen</h2>
+      <button class="btn btn-ghost btn-sm" id="btnReload">Recargar</button>
+    </header>
+
+    <div class="content">
+
+      <!-- ============ RESUMEN ============ -->
+      <section class="panel active" data-panel="resumen">
+        <div class="stats" id="stats"></div>
+        <div class="card">
+          <h3>Próximas citas</h3>
+          <div class="table-wrap"><table id="upcomingTable"></table></div>
+        </div>
+      </section>
+
+      <!-- ============ NEGOCIO ============ -->
+      <section class="panel" data-panel="negocio">
+        <div class="card">
+          <h3>Identidad del negocio</h3>
+          <div class="grid2">
+            <label class="field"><span>Nombre</span><input type="text" data-path="negocio.nombre"></label>
+            <label class="field"><span>Tagline</span><input type="text" data-path="negocio.tagline"></label>
+            <label class="field"><span>URL del logo</span><input type="text" data-path="negocio.logoUrl" placeholder="https://..."></label>
+            <label class="field"><span>Moneda</span><input type="text" data-path="negocio.moneda" placeholder="MXN"></label>
+            <label class="field"><span>Color primario</span><input type="color" data-path="negocio.colorPrimario"></label>
+            <label class="field"><span>Color de acento</span><input type="color" data-path="negocio.colorAcento"></label>
+          </div>
+          <label class="field"><span>Texto del anuncio superior</span><input type="text" data-path="negocio.anuncio"></label>
+          <label class="field"><span>Texto del hero</span><textarea data-path="negocio.heroTexto"></textarea></label>
+          <button class="btn btn-primary" data-save="negocio">Guardar negocio</button>
+        </div>
+      </section>
+
+      <!-- ============ CONTACTO ============ -->
+      <section class="panel" data-panel="contacto">
+        <div class="card">
+          <h3>Datos de contacto</h3>
+          <div class="grid2">
+            <label class="field"><span>Teléfono</span><input type="tel" data-path="contacto.telefono"></label>
+            <label class="field"><span>WhatsApp (solo dígitos)</span><input type="text" data-path="contacto.whatsapp" placeholder="525512345678"></label>
+            <label class="field"><span>Correo</span><input type="email" data-path="contacto.email"></label>
+            <label class="field"><span>Dirección</span><input type="text" data-path="contacto.direccion"></label>
+          </div>
+          <label class="field"><span>Horario (texto visible)</span><input type="text" data-path="contacto.horarioTexto"></label>
+          <label class="field"><span>Estacionamiento</span><input type="text" data-path="contacto.estacionamiento"></label>
+        </div>
+        <div class="card">
+          <h3>Redes sociales</h3>
+          <div class="grid3">
+            <label class="field"><span>Instagram</span><input type="text" data-path="contacto.instagram" placeholder="https://instagram.com/..."></label>
+            <label class="field"><span>Facebook</span><input type="text" data-path="contacto.facebook" placeholder="https://facebook.com/..."></label>
+            <label class="field"><span>TikTok</span><input type="text" data-path="contacto.tiktok" placeholder="https://tiktok.com/@..."></label>
+          </div>
+          <button class="btn btn-primary" data-save="contacto">Guardar contacto</button>
+        </div>
+      </section>
+
+      <!-- ============ UBICACIÓN ============ -->
+      <section class="panel" data-panel="ubicacion">
+        <div class="card">
+          <h3>Mapa y navegación</h3>
+          <label class="field">
+            <span>URL del iframe del mapa (embed)</span>
+            <textarea data-path="ubicacion.mapEmbed" placeholder="https://www.openstreetmap.org/export/embed.html?..."></textarea>
+          </label>
+          <label class="field">
+            <span>Enlace de navegación (abrir en Google Maps)</span>
+            <input type="text" data-path="ubicacion.mapLink" placeholder="https://www.google.com/maps/dir/?api=1&destination=...">
+          </label>
+          <div class="grid2">
+            <label class="field"><span>Latitud</span><input type="text" data-path="ubicacion.lat"></label>
+            <label class="field"><span>Longitud</span><input type="text" data-path="ubicacion.lng"></label>
+          </div>
+          <div class="map-preview" id="mapPreview"></div>
+          <div style="margin-top:16px;">
+            <button class="btn btn-primary" data-save="ubicacion">Guardar ubicación</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SERVICIOS ============ -->
+      <section class="panel" data-panel="servicios">
+        <div class="card">
+          <div class="card-head">
+            <h3>Catálogo de servicios</h3>
+            <button class="btn btn-ghost btn-sm" id="addService">+ Añadir servicio</button>
+          </div>
+          <div id="servicesList"></div>
+          <button class="btn btn-primary" data-save="servicios">Guardar servicios</button>
+        </div>
+      </section>
+
+      <!-- ============ HORARIOS ============ -->
+      <section class="panel" data-panel="horarios">
+        <div class="card">
+          <h3>Horarios por día de la semana</h3>
+          <p class="muted" style="margin-bottom:16px;">Los días sin horarios se muestran como cerrados en la página de reservas.</p>
+          <div id="scheduleList"></div>
+          <button class="btn btn-primary" data-save="horarios">Guardar horarios</button>
+        </div>
+      </section>
+
+      <!-- ============ DISPONIBILIDAD ============ -->
+      <section class="panel" data-panel="disponibilidad">
+        <div class="card">
+          <h3>Reglas de reserva</h3>
+          <div class="grid2">
+            <label class="field"><span>Anticipación mínima (horas)</span><input type="number" min="0" data-path="disponibilidad.anticipacionHoras"></label>
+            <label class="field"><span>Días máximos a futuro</span><input type="number" min="1" data-path="disponibilidad.maxDias"></label>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Días cerrados</h3>
+            <div class="row-actions">
+              <input type="date" class="input-time" id="closedInput">
+              <button class="btn btn-ghost btn-sm" id="addClosed">+ Añadir</button>
+            </div>
+          </div>
+          <div class="chips" id="closedList"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Bloqueos puntuales</h3>
+            <button class="btn btn-ghost btn-sm" id="addBlock">+ Añadir bloqueo</button>
+          </div>
+          <div id="blocksList"></div>
+          <button class="btn btn-primary" data-save="disponibilidad">Guardar disponibilidad</button>
+        </div>
+      </section>
+
+      <!-- ============ IMÁGENES ============ -->
+      <section class="panel" data-panel="imagenes">
+        <div class="card">
+          <div class="card-head">
+            <h3>Galería de imágenes</h3>
+            <button class="btn btn-ghost btn-sm" id="addImage">+ Añadir imagen</button>
+          </div>
+          <div class="gallery" id="galleryList"></div>
+          <div style="margin-top:18px;">
+            <button class="btn btn-primary" data-save="imagenes">Guardar imágenes</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CITAS ============ -->
+      <section class="panel" data-panel="citas">
+        <div class="card">
+          <h3>Citas recibidas</h3>
+          <div class="toolbar">
+            <input type="text" id="citaSearch" placeholder="Buscar cliente, correo o servicio…">
+            <select id="citaFilter">
+              <option value="">Todos los estados</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="confirmada">Confirmada</option>
+              <option value="completada">Completada</option>
+              <option value="cancelada">Cancelada</option>
+            </select>
+            <button class="btn btn-ghost btn-sm" id="btnRefreshCitas">Actualizar</button>
+          </div>
+          <div class="table-wrap"><table id="citasTable"></table></div>
+        </div>
+      </section>
+
+      <!-- ============ AJUSTES ============ -->
+      <section class="panel" data-panel="ajustes">
+        <div class="card">
+          <h3>Cambiar contraseña</h3>
+          <label class="field"><span>Contraseña actual</span><input type="password" id="passCurrent" autocomplete="current-password"></label>
+          <label class="field"><span>Nueva contraseña (mín. 6 caracteres)</span><input type="password" id="passNext" autocomplete="new-password"></label>
+          <button class="btn btn-primary" id="btnChangePass">Actualizar contraseña</button>
+        </div>
+        <div class="card">
+          <h3>Hoja de cálculo</h3>
+          <p class="muted" id="sheetInfo">—</p>
+          <div style="margin-top:12px;">
+            <a class="btn btn-ghost btn-sm" id="sheetLink" target="_blank" rel="noopener">Abrir hoja de cálculo</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* =========================================================
+     ESTADO
+     ========================================================= */
+  const state = {
+    token: sessionStorage.getItem('aevi_token') || '',
+    config: null,
+    citas: [],
+    section: 'resumen'
+  };
+
+  const DAY_NAMES = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const ESTADOS = ['pendiente','confirmada','completada','cancelada'];
+
+  const $  = (s) => document.querySelector(s);
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g,
+    (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  const getPath = (obj, path) =>
+    path.split('.').reduce((o,k) => (o == null ? undefined : o[k]), obj);
+
+  const setPath = (obj, path, val) => {
+    const keys = path.split('.');
+    const last = keys.pop();
+    let o = obj;
+    keys.forEach(k => {
+      if (typeof o[k] !== 'object' || o[k] === null) o[k] = {};
+      o = o[k];
+    });
+    o[last] = val;
+  };
+
+  const isoToday = () => {
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
+  };
+
+  /* =========================================================
+     API — google.script.run
+     ========================================================= */
+  function run(fn){
+    const args = Array.prototype.slice.call(arguments, 1);
+    return new Promise((resolve, reject) => {
+      google.script.run
+        .withSuccessHandler(resolve)
+        .withFailureHandler((err) => reject(err || new Error('Error de conexión')))
+        [fn].apply(null, args);
+    });
+  }
+
+  async function authed(fn){
+    const args = Array.prototype.slice.call(arguments, 1);
+    try {
+      return await run.apply(null, [fn, state.token].concat(args));
+    } catch (e) {
+      if (/sesi[oó]n/i.test(e.message || '')) logout(true);
+      throw e;
+    }
+  }
+
+  /* =========================================================
+     TOAST
+     ========================================================= */
+  let toastTimer;
+  function toast(msg, isError){
+    const el = $('#toast');
+    el.textContent = msg;
+    el.className = 'toast show' + (isError ? ' error' : '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { el.className = 'toast'; }, 2600);
+  }
+
+  /* =========================================================
+     SESIÓN
+     ========================================================= */
+  function showLogin(msg){
+    $('#appView').classList.add('hidden');
+    $('#loginView').classList.remove('hidden');
+    $('#loginMsg').textContent = msg || '';
+    $('#loginPass').value = '';
+    setTimeout(() => $('#loginPass').focus(), 100);
+  }
+
+  function showApp(){
+    $('#loginView').classList.add('hidden');
+    $('#appView').classList.remove('hidden');
+  }
+
+  function logout(silent){
+    state.token = '';
+    sessionStorage.removeItem('aevi_token');
+    if (!silent) { try { run('logout', state.token); } catch(e){} }
+    showLogin(silent ? 'Tu sesión expiró. Vuelve a iniciar sesión.' : '');
+  }
+
+  $('#loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pass = $('#loginPass').value;
+    $('#loginMsg').textContent = 'Verificando…';
+    try {
+      const res = await run('login', pass);
+      if (!res.ok) { $('#loginMsg').textContent = res.error || 'No se pudo entrar'; return; }
+      state.token = res.token;
+      sessionStorage.setItem('aevi_token', res.token);
+      $('#loginMsg').textContent = '';
+      await loadAll();
+    } catch (err) {
+      $('#loginMsg').textContent = err.message || 'Error de conexión';
+    }
+  });
+
+  $('#btnLogout').addEventListener('click', () => logout(false));
+
+  /* =========================================================
+     CARGA DE DATOS
+     ========================================================= */
+  async function loadAll(){
+    const data = await authed('getDashboard');
+    state.config = data.config;
+    state.citas = data.citas || [];
+    state.meta = { id: data.spreadsheetId, url: data.spreadsheetUrl };
+
+    showApp();
+    renderAll();
+  }
+
+  function renderAll(){
+    renderBrand();
+    fillFields();
+    renderResumen();
+    renderServicios();
+    renderHorarios();
+    renderDisponibilidad();
+    renderImagenes();
+    renderUbicacionPreview();
+    renderCitas();
+    renderAjustes();
+  }
+
+  /* =========================================================
+     NAVEGACIÓN
+     ========================================================= */
+  const TITLES = {
+    resumen:'Resumen', negocio:'Negocio', contacto:'Contacto y redes',
+    ubicacion:'Ubicación', servicios:'Servicios', horarios:'Horarios',
+    disponibilidad:'Disponibilidad', imagenes:'Imágenes', citas:'Citas', ajustes:'Ajustes'
+  };
+
+  function goTo(section){
+    state.section = section;
+    $$('.nav-btn[data-section]').forEach(b =>
+      b.classList.toggle('active', b.dataset.section === section));
+    $$('.panel').forEach(p =>
+      p.classList.toggle('active', p.dataset.panel === section));
+    $('#pageTitle').textContent = TITLES[section] || section;
+    $('#sidebar').classList.remove('open');
+    $('#backdrop').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  $$('.nav-btn[data-section]').forEach(btn => {
+    btn.addEventListener('click', () => goTo(btn.dataset.section));
+  });
+
+  $('#menuBtn').addEventListener('click', () => {
+    $('#sidebar').classList.toggle('open');
+    $('#backdrop').classList.toggle('show');
+  });
+  $('#backdrop').addEventListener('click', () => {
+    $('#sidebar').classList.remove('open');
+    $('#backdrop').classList.remove('show');
+  });
+
+  $('#btnReload').addEventListener('click', async () => {
+    try { await loadAll(); toast('Datos actualizados ✓'); }
+    catch (e) { toast(e.message, true); }
+  });
+
+  /* =========================================================
+     MARCA / CAMPOS GENÉRICOS
+     ========================================================= */
+  function renderBrand(){
+    const n = state.config.negocio || {};
+    $('#brandName').textContent = n.nombre || 'Aevi Wellness';
+    const logo = $('#brandLogo');
+    if (n.logoUrl) {
+      logo.innerHTML = '<img src="' + esc(n.logoUrl) + '" alt="">';
+    } else {
+      logo.textContent = (n.nombre || 'A').trim().charAt(0).toUpperCase();
+    }
+  }
+
+  function fillFields(){
+    $$('[data-path]').forEach(el => {
+      const v = getPath(state.config, el.dataset.path);
+      if (el.type === 'checkbox') el.checked = !!v;
+      else el.value = (v == null ? '' : v);
+    });
+  }
+
+  function collectFields(){
+    $$('[data-path]').forEach(el => {
+      let v;
+      if (el.type === 'checkbox') v = el.checked;
+      else if (el.type === 'number') v = el.value === '' ? 0 : Number(el.value);
+      else v = el.value;
+      setPath(state.config, el.dataset.path, v);
+    });
+  }
+
+  // Botones de guardado por sección
+  $$('[data-save]').forEach(btn => {
+    btn.addEventListener('click', () => saveSection(btn.dataset.save, btn));
+  });
+
+  async function saveSection(key, btn){
+    collectFields();
+    if (btn) { btn.disabled = true; btn.textContent = 'Guardando…'; }
+    try {
+      await authed('saveSection', key, state.config[key]);
+      renderBrand();
+      if (key === 'ubicacion') renderUbicacionPreview();
+      toast('Guardado ✓');
+    } catch (e) {
+      toast(e.message || 'No se pudo guardar', true);
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Guardar ' + (TITLES[key] || '').toLowerCase(); }
+    }
+  }
+
+  /* =========================================================
+     RESUMEN
+     ========================================================= */
+  function renderResumen(){
+    const hoy = isoToday();
+    const mes = hoy.slice(0, 7);
+    const activas = state.citas.filter(c => c.estado !== 'cancelada');
+
+    const hoyCount = activas.filter(c => c.fecha === hoy).length;
+    const mesCount = activas.filter(c => (c.fecha || '').startsWith(mes)).length;
+    const ingresos = activas
+      .filter(c => (c.fecha || '').startsWith(mes))
+      .reduce((s, c) => s + (Number(c.precio) || 0), 0);
+    const serviciosOn = (state.config.servicios || []).filter(s => s.activo !== false).length;
+
+    $('#stats').innerHTML =
+      statCard(hoyCount, 'Citas hoy') +
+      statCard(mesCount, 'Citas este mes') +
+      statCard(formatMoney(ingresos), 'Ingresos del mes') +
+      statCard(serviciosOn, 'Servicios activos');
+
+    const proximas = activas
+      .filter(c => c.fecha >= hoy)
+      .sort((a, b) => (a.fecha + a.hora).localeCompare(b.fecha + b.hora))
+      .slice(0, 8);
+
+    $('#upcomingTable').innerHTML = proximas.length
+      ? '<thead><tr><th>Fecha</th><th>Hora</th><th>Cliente</th><th>Servicio</th><th>Estado</th></tr></thead><tbody>' +
+        proximas.map(c => `
+          <tr>
+            <td>${esc(c.fecha)}</td>
+            <td>${esc(c.hora)}</td>
+            <td>${esc(c.nombre)}</td>
+            <td>${esc(c.servicio)}</td>
+            <td><span class="badge ${esc(c.estado)}">${esc(c.estado)}</span></td>
+          </tr>`).join('') + '</tbody>'
+      : '<tbody><tr><td class="muted">Aún no hay citas registradas.</td></tr></tbody>';
+  }
+
+  function statCard(value, label){
+    return '<div class="stat"><b>' + esc(value) + '</b><span>' + esc(label) + '</span></div>';
+  }
+
+  function formatMoney(n){
+    try {
+      return new Intl.NumberFormat('es-MX', {
+        style:'currency', currency:(state.config.negocio && state.config.negocio.moneda) || 'MXN',
+        maximumFractionDigits:0
+      }).format(n || 0);
+    } catch(e){ return '$' + (n || 0); }
+  }
+
+  /* =========================================================
+     SERVICIOS
+     ========================================================= */
+  function renderServicios(){
+    const arr = state.config.servicios || [];
+    $('#servicesList').innerHTML = arr.length
+      ? arr.map((s, i) => `
+        <div class="row-card" data-idx="${i}">
+          <div class="row-head">
+            <strong>${esc(s.nombre || 'Servicio sin nombre')}</strong>
+            <div class="row-actions">
+              <label class="muted" style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                <input type="checkbox" data-field="activo" ${s.activo !== false ? 'checked' : ''}>
+                Activo
+              </label>
+              <button type="button" class="icon-btn" data-action="del-service" data-idx="${i}" title="Eliminar">✕</button>
+            </div>
+          </div>
+          <div class="grid2">
+            <label class="field"><span>Nombre</span><input type="text" data-field="nombre" value="${esc(s.nombre)}"></label>
+            <label class="field"><span>ID interno</span><input type="text" data-field="id" value="${esc(s.id)}"></label>
+            <label class="field"><span>Duración (min)</span><input type="number" data-field="duracion" value="${Number(s.duracion) || 0}"></label>
+            <label class="field"><span>Precio</span><input type="number" data-field="precio" value="${Number(s.precio) || 0}"></label>
+          </div>
+          <label class="field" style="margin-bottom:0;"><span>Descripción</span><input type="text" data-field="descripcion" value="${esc(s.descripcion)}"></label>
+        </div>`).join('')
+      : '<p class="muted">No hay servicios. Añade el primero.</p>';
+  }
+
+  $('#servicesList').addEventListener('input', (e) => {
+    const card = e.target.closest('[data-idx]');
+    const field = e.target.dataset.field;
+    if (!card || !field) return;
+    const i = Number(card.dataset.idx);
+    const s = state.config.servicios[i];
+    if (!s) return;
+    s[field] = e.target.type === 'checkbox' ? e.target.checked
+             : e.target.type === 'number'   ? Number(e.target.value)
+             : e.target.value;
+    if (field === 'nombre') {
+      const strong = card.querySelector('.row-head strong');
+      if (strong) strong.textContent = e.target.value || 'Servicio sin nombre';
+    }
+  });
+
+  $('#servicesList').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="del-service"]');
+    if (!btn) return;
+    if (!confirm('¿Eliminar este servicio?')) return;
+    state.config.servicios.splice(Number(btn.dataset.idx), 1);
+    renderServicios();
+  });
+
+  $('#addService').addEventListener('click', () => {
+    if (!Array.isArray(state.config.servicios)) state.config.servicios = [];
+    state.config.servicios.push({
+      id: 'servicio-' + Date.now(),
+      nombre: 'Nuevo servicio',
+      descripcion: '',
+      duracion: 60,
+      precio: 0,
+      activo: true
+    });
+    renderServicios();
+  });
+
+  /* =========================================================
+     HORARIOS
+     ========================================================= */
+  function renderHorarios(){
+    const h = state.config.horarios || {};
+    $('#scheduleList').innerHTML = DAY_NAMES.map((name, d) => {
+      const times = h[d] || h[String(d)] || [];
+      return `
+        <div class="row-card">
+          <div class="row-head">
+            <strong>${name}</strong>
+            <div class="row-actions">
+              <input type="time" class="input-time" data-day-input="${d}">
+              <button type="button" class="btn btn-ghost btn-sm" data-action="add-time" data-day="${d}">+ Añadir</button>
+            </div>
+          </div>
+          <div class="chips">
+            ${times.length
+              ? times.map((t, i) => `
+                  <span class="chip">${esc(t)}
+                    <button type="button" data-action="del-time" data-day="${d}" data-i="${i}" title="Quitar">✕</button>
+                  </span>`).join('')
+              : '<span class="muted">Cerrado</span>'}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  $('#scheduleList').addEventListener('click', (e) => {
+    const add = e.target.closest('[data-action="add-time"]');
+    if (add) {
+      const d = add.dataset.day;
+      const input = document.querySelector('[data-day-input="' + d + '"]');
+      const value = (input && input.value || '').trim();
+      if (!/^\d{2}:\d{2}$/.test(value)) { toast('Selecciona una hora válida', true); return; }
+      if (!state.config.horarios) state.config.horarios = {};
+      const arr = state.config.horarios[d] || [];
+      if (arr.indexOf(value) === -1) arr.push(value);
+      arr.sort();
+      state.config.horarios[d] = arr;
+      renderHorarios();
+      return;
+    }
+    const del = e.target.closest('[data-action="del-time"]');
+    if (del) {
+      const d = del.dataset.day;
+      const i = Number(del.dataset.i);
+      const arr = state.config.horarios[d] || [];
+      arr.splice(i, 1);
+      state.config.horarios[d] = arr;
+      renderHorarios();
+    }
+  });
+
+  /* =========================================================
+     DISPONIBILIDAD
+     ========================================================= */
+  function renderDisponibilidad(){
+    const d = state.config.disponibilidad || (state.config.disponibilidad = {});
+    if (!Array.isArray(d.diasCerrados)) d.diasCerrados = [];
+    if (!Array.isArray(d.bloqueos)) d.bloqueos = [];
+
+    $('#closedList').innerHTML = d.diasCerrados.length
+      ? d.diasCerrados.slice().sort().map((f, i) => `
+          <span class="chip">${esc(f)}
+            <button type="button" data-action="del-closed" data-i="${i}">✕</button>
+          </span>`).join('')
+      : '<span class="muted">Sin días cerrados</span>';
+
+    $('#blocksList').innerHTML = d.bloqueos.length
+      ? d.bloqueos.map((b, i) => `
+          <div class="row-card" data-bidx="${i}">
+            <div class="row-head">
+              <strong>${esc(b.fecha)} · ${esc(b.hora || 'Todo el día')}</strong>
+              <button type="button" class="icon-btn" data-action="del-block" data-i="${i}">✕</button>
+            </div>
+            <div class="grid3">
+              <label class="field"><span>Fecha</span><input type="date" data-bfield="fecha" value="${esc(b.fecha)}"></label>
+              <label class="field"><span>Hora (vacío = todo el día)</span><input type="time" data-bfield="hora" value="${esc(b.hora || '')}"></label>
+              <label class="field"><span>Motivo</span><input type="text" data-bfield="motivo" value="${esc(b.motivo || '')}"></label>
+            </div>
+          </div>`).join('')
+      : '<p class="muted">Sin bloqueos puntuales.</p>';
+  }
+
+  $('#addClosed').addEventListener('click', () => {
+    const v = $('#closedInput').value;
+    if (!v) { toast('Selecciona una fecha', true); return; }
+    const d = state.config.disponibilidad;
+    if (!Array.isArray(d.diasCerrados)) d.diasCerrados = [];
+    if (d.diasCerrados.indexOf(v) === -1) d.diasCerrados.push(v);
+    $('#closedInput').value = '';
+    renderDisponibilidad();
+  });
+
+  $('#closedList').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="del-closed"]');
+    if (!btn) return;
+    state.config.disponibilidad.diasCerrados.splice(Number(btn.dataset.i), 1);
+    renderDisponibilidad();
+  });
+
+  $('#addBlock').addEventListener('click', () => {
+    const d = state.config.disponibilidad;
+    if (!Array.isArray(d.bloqueos)) d.bloqueos = [];
+    d.bloqueos.push({ fecha: isoToday(), hora: '', motivo: '' });
+    renderDisponibilidad();
+  });
+
+  $('#blocksList').addEventListener('input', (e) => {
+    const card = e.target.closest('[data-bidx]');
+    const field = e.target.dataset.bfield;
+    if (!card || !field) return;
+    state.config.disponibilidad.bloqueos[Number(card.dataset.bidx)][field] = e.target.value;
+  });
+
+  $('#blocksList').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="del-block"]');
+    if (!btn) return;
+    state.config.disponibilidad.bloqueos.splice(Number(btn.dataset.i), 1);
+    renderDisponibilidad();
+  });
+
+  /* =========================================================
+     IMÁGENES
+     ========================================================= */
+  function renderImagenes(){
+    const arr = state.config.imagenes || [];
+    $('#galleryList').innerHTML = arr.length
+      ? arr.map((img, i) => `
+          <div class="gal-item" data-idx="${i}">
+            <div class="gal-thumb" style="${img.url ? "background-image:url('" + esc(img.url) + "')" : ''}">
+              ${img.url ? '' : 'Sin imagen'}
+            </div>
+            <div class="gal-body">
+              <input type="text" data-ifield="url" placeholder="https://…" value="${esc(img.url)}">
+              <input type="text" data-ifield="alt" placeholder="Descripción" value="${esc(img.alt)}">
+              <button type="button" class="btn btn-danger btn-sm" data-action="del-image" data-i="${i}" style="width:100%;">Eliminar</button>
+            </div>
+          </div>`).join('')
+      : '<p class="muted">Sin imágenes. Añade la primera.</p>';
+  }
+
+  $('#galleryList').addEventListener('input', (e) => {
+    const card = e.target.closest('[data-idx]');
+    const field = e.target.dataset.ifield;
+    if (!card || !field) return;
+    const i = Number(card.dataset.idx);
+    state.config.imagenes[i][field] = e.target.value;
+    if (field === 'url') {
+      const thumb = card.querySelector('.gal-thumb');
+      thumb.style.backgroundImage = e.target.value ? "url('" + e.target.value + "')" : '';
+      thumb.textContent = e.target.value ? '' : 'Sin imagen';
+    }
+  });
+
+  $('#galleryList').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action="del-image"]');
+    if (!btn) return;
+    state.config.imagenes.splice(Number(btn.dataset.i), 1);
+    renderImagenes();
+  });
+
+  $('#addImage').addEventListener('click', () => {
+    if (!Array.isArray(state.config.imagenes)) state.config.imagenes = [];
+    state.config.imagenes.push({ url:'', alt:'' });
+    renderImagenes();
+  });
+
+  /* =========================================================
+     UBICACIÓN — PREVIEW
+     ========================================================= */
+  function renderUbicacionPreview(){
+    const src = (state.config.ubicacion && state.config.ubicacion.mapEmbed) || '';
+    const box = $('#mapPreview');
+    box.innerHTML = src
+      ? '<iframe src="' + esc(src) + '" loading="lazy" title="Vista previa del mapa"></iframe>'
+      : '<div style="display:grid;place-items:center;height:100%;color:#999;font-size:13px;">Sin mapa configurado</div>';
+  }
+
+  /* =========================================================
+     CITAS
+     ========================================================= */
+  function renderCitas(){
+    const q = ($('#citaSearch').value || '').toLowerCase().trim();
+    const est = $('#citaFilter').value;
+
+    let rows = state.citas.slice().sort((a, b) =>
+      (b.fecha + b.hora).localeCompare(a.fecha + a.hora));
+
+    if (est) rows = rows.filter(c => c.estado === est);
+    if (q) rows = rows.filter(c =>
+      ((c.nombre || '') + ' ' + (c.email || '') + ' ' + (c.servicio || '')).toLowerCase().indexOf(q) !== -1);
+
+    const table = $('#citasTable');
+
+    if (!rows.length) {
+      table.innerHTML = '<tbody><tr><td class="muted" style="padding:20px 12px;">No hay citas que coincidan.</td></tr></tbody>';
+      return;
+    }
+
+    table.innerHTML =
+      '<thead><tr>' +
+        '<th>Fecha</th><th>Hora</th><th>Cliente</th><th>Contacto</th>' +
+        '<th>Servicio</th><th>Total</th><th>Estado</th><th></th>' +
+      '</tr></thead><tbody>' +
+      rows.map(c => `
+        <tr>
+          <td>${esc(c.fecha)}</td>
+          <td>${esc(c.hora)}</td>
+          <td>${esc(c.nombre)}</td>
+          <td class="muted">${esc(c.email)}<br>${esc(c.telefono || '')}</td>
+          <td>${esc(c.servicio)}</td>
+          <td>${formatMoney(Number(c.precio) || 0)}</td>
+          <td>
+            <select data-action="estado" data-row="${c._row}">
+              ${ESTADOS.map(e => `<option value="${e}" ${c.estado === e ? 'selected' : ''}>${e}</option>`).join('')}
+            </select>
+          </td>
+          <td><button class="icon-btn" data-action="del-cita" data-row="${c._row}" title="Eliminar">✕</button></td>
+        </tr>`).join('') + '</tbody>';
+  }
+
+  $('#citaSearch').addEventListener('input', renderCitas);
+  $('#citaFilter').addEventListener('change', renderCitas);
+
+  $('#btnRefreshCitas').addEventListener('click', async () => {
+    try {
+      state.citas = await authed('getCitas');
+      renderCitas();
+      renderResumen();
+      toast('Citas actualizadas ✓');
+    } catch (e) { toast(e.message, true); }
+  });
+
+  $('#citasTable').addEventListener('change', async (e) => {
+    const sel = e.target.closest('[data-action="estado"]');
+    if (!sel) return;
+    const row = Number(sel.dataset.row);
+    const estado = sel.value;
+    try {
+      await authed('updateCitaEstado', row, estado);
+      const c = state.citas.find(x => x._row === row);
+      if (c) c.estado = estado;
+      renderResumen();
+      toast('Estado actualizado ✓');
+    } catch (err) { toast(err.message, true); }
+  });
+
+  $('#citasTable').addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-action="del-cita"]');
+    if (!btn) return;
+    if (!confirm('¿Eliminar esta cita definitivamente?')) return;
+    const row = Number(btn.dataset.row);
+    try {
+      await authed('deleteCita', row);
+      state.citas = state.citas.filter(c => c._row !== row);
+      renderCitas();
+      renderResumen();
+      toast('Cita eliminada');
+    } catch (err) { toast(err.message, true); }
+  });
+
+  /* =========================================================
+     AJUSTES
+     ========================================================= */
+  function renderAjustes(){
+    const meta = state.meta || {};
+    $('#sheetInfo').textContent = meta.id ? 'ID: ' + meta.id : '—';
+    const link = $('#sheetLink');
+    if (meta.url) link.href = meta.url;
+  }
+
+  $('#btnChangePass').addEventListener('click', async () => {
+    const current = $('#passCurrent').value;
+    const next = $('#passNext').value;
+    try {
+      const res = await authed('changePassword', current, next);
+      if (!res.ok) { toast(res.error, true); return; }
+      $('#passCurrent').value = '';
+      $('#passNext').value = '';
+      toast('Contraseña actualizada ✓');
+    } catch (e) { toast(e.message, true); }
+  });
+
+  /* =========================================================
+     ARRANQUE
+     ========================================================= */
+  (async function boot(){
+    if (!state.token) { showLogin(); return; }
+    try {
+      await loadAll();
+    } catch (e) {
+      showLogin(e.message || '');
+    }
+  })();
+
+})();
+</script>
+</body>
+</html>
